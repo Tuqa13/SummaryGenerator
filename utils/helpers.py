@@ -16,7 +16,7 @@ CONCISE_SUMMARY_TEMPLATE = """Write a concise summary of the following:\n\n{text
 
 def fetch_articles(url):
     """
-    This method perform an HTTP GET request to fetch the content of a given URL and returns the response text.
+    This function performs an HTTP GET request to fetch the content of a given URL and returns the response text.
     """
     try:
         response = requests.get(url)
@@ -27,20 +27,33 @@ def fetch_articles(url):
         return None
 
 
+def initialize_openai_model():
+    """
+    Initializes and returns the ChatOpenAI model with the required parameters.
+    """
+    return ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, model_name=MODEL_NAME)
+
+
+def create_summary_chain(llm, articles_data):
+    """
+    Creates and returns a summarization chain based on the provided ChatOpenAI model and articles data.
+    """
+    prompt = PromptTemplate(template=CONCISE_SUMMARY_TEMPLATE, input_variables=["text"])
+    articles_data_truncated = articles_data[:MAX_TOKENS]
+    documents = [Document(page_content=articles_data_truncated)]
+
+    chain_type = "stuff" if len(articles_data) < MAX_TOKENS else "map_reduce"
+    return load_summarize_chain(llm, chain_type=chain_type, map_prompt=prompt, combine_prompt=prompt, verbose=True)
+
+
 def generate_summaries(articles_data):
     """
-    This method take the content of an article as input and generates summaries using the ChatOpenAI model,
-    likely incorporating natural language processing techniques for summarization.
+    Generates summaries using the ChatOpenAI model and the provided articles data.
     """
     try:
-        llm = ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, model_name=MODEL_NAME)
-        prompt = PromptTemplate(template=CONCISE_SUMMARY_TEMPLATE, input_variables=["text"])
-
-        articles_data_truncated = articles_data[:MAX_TOKENS]
-        documents = [Document(page_content=articles_data_truncated)]
-
-        chain_type = "stuff" if len(articles_data) < MAX_TOKENS else "map_reduce"
-        chain = load_summarize_chain(llm, chain_type=chain_type, map_prompt=prompt, combine_prompt=prompt, verbose=True)
+        llm = initialize_openai_model()
+        chain = create_summary_chain(llm, articles_data)
+        documents = [Document(page_content=articles_data[:MAX_TOKENS])]
 
         summary = chain.run(documents)
         print("Summary:")
