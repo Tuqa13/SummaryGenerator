@@ -1,4 +1,4 @@
-To get this project done, I used multiple resorses to learn:
+To get this project done, I used multiple resources to learn:
 
 1- Langchain documentation - API:
 https://api.python.langchain.com/en/stable/api_reference.html
