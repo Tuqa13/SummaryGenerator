@@ -12,8 +12,8 @@ https://www.packtpub.com/article-hub/how-to-work-with-langchain-python-modules
 4- OpeAI documentation:
 https://platform.openai.com/docs
 
-5- Streamlit toutorial:
+5- Streamlit Tutorial:
 https://www.classcentral.com/course/youtube-streamlit-web-application-in-python-97505
 
-6- Flask:
+6- Flask Tutorial:
 https://www.youtube.com/watch?v=Z1RJmh_OqeA
