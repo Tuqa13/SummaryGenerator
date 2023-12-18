@@ -1,4 +1,5 @@
 To execute the code, follow these steps: 
 1. Insert your API key into the .env file.
-2. To start the project, click the "Run" button.
-3. Enter the command "streamlit run streamlit_app.py" in the terminal at the project's destination.
+2. In terminal enter the command "pip freeze > requirements.txt".
+3. To start the project, click the "Run" button.
+4. Enter the command "streamlit run streamlit_app.py" in the terminal at the project's destination.
